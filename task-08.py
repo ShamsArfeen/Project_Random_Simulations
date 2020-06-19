@@ -20,7 +20,7 @@ def Pick_from_Circ(Radius):
 
 def Expected_Time(Radius):
     Bots = 500
-    Time = 2000
+    Time = 5000
 
     mybots = list()                     # bots list
     for i in range(Bots):
