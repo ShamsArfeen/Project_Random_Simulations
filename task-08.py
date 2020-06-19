@@ -19,8 +19,8 @@ def Pick_from_Circ(Radius):
     return (math.cos(dt) * dr, math.sin(dt) * dr)
 
 def Expected_Time(Radius):
-    Bots = 500
-    Time = 500
+    Bots = 50 * int(math.sqrt(Radius))
+    Time = 80 * int(math.sqrt(Radius))
 
     mybots = list()                     # bots list
     for i in range(Bots):
@@ -53,8 +53,8 @@ def Expected_Time(Radius):
 
         return my_Bots
 
-    Total_Meets = 1
-    Meetings = [ 0 ]                # Meetings[i] stores no. of meetings occured on step i
+    Total_Meets = 0
+    Meetings = list()                # Meetings[i] stores no. of meetings occured on step i
     for Step in range(Time):
         Meetings.append( 0 )
 
@@ -68,7 +68,11 @@ def Expected_Time(Radius):
             else:
                 Restore.append( (a,b) )
         Lost = Restore
-
+        
+    for _ in Lost:
+        Meetings[-1] += 1
+        Total_Meets += 1  
+        
     return sum([Step * Meetings[Step] for Step in range(Time)]) / Total_Meets
 
 print(Expected_Time(8))
