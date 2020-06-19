@@ -1,6 +1,7 @@
 import random
 import math
 import numpy
+
 """ ----------------------------------- TASK 8 -----------------------------------------
 Building on task 5, each team will capture the trajectory of two nodes whose initial locations are
 chosen randomly and uniformly over a circular region. Every team will be asked to explain how did
@@ -19,20 +20,28 @@ def Pick_from_Circ(Radius):
     return (math.cos(dt) * dr, math.sin(dt) * dr)
 
 def Expected_Time(Radius):
-    Bots = 500
-    Time = 500
+    Bots = 300
+    Time = 300
+
+    A = Pick_from_Circ(Radius)
+    B = Pick_from_Circ(Radius)
+
+    print( 'Distance :', Distance(A, B))
     
-    mybots = list()                     # bots list
+    A_bot = list()                  # bots on point A
     for i in range(Bots):
-        mybots.append( Pick_from_Circ(Radius) )
-        
-    Lost = list()                       # stores pairs of bots (A,B) which are have not yet met.
-                                        # This list will update on every step
-    for a in range(len(mybots) - 1):
-        for b in range(a+1, len(mybots)):
+        A_bot.append( A )
+
+    B_bot = list()                  # bots on point B
+    for i in range(Bots):
+        B_bot.append( B )
+
+    Lost = list()                   # stores pairs of bots (A,B) which are yet to meet
+    for a in range(Bots):
+        for b in range(Bots):
             Lost.append( (a,b) )
 
-    def Take_A_Step(my_Bots):           # simulates all given bots by one step
+    def Take_A_Step(my_Bots):      # simulates given bots by one step
         for bot in range(len(my_Bots)):
             x,y = my_Bots[bot]
             
@@ -42,27 +51,24 @@ def Expected_Time(Radius):
             dx = dr * math.cos(dt)
             dy = dr * math.sin(dt)
 
-            x = x + dx
-            y = y + dy
-            r = math.sqrt(x**2 + y**2)
+            my_Bots[bot] = (x + dx, y + dy)
 
-            if r > Radius:
-                my_Bots[bot] = (x / r, y / r)
-            else:
-                my_Bots[bot] = (x + dx, y + dy)
+            if (x + dx)**2 + (y + dy)**2 > Radius**2:           #Formula mentioned in the write-up
+                my_Bots[bot] = ( (x+dx) / (math.sqrt((x+dx)**2 + (y+dy)**2)), (y+dy) / (math.sqrt((x+dx)**2 + (y+dy)**2)))
             
         return my_Bots
 
     Total_Meets = 1
-    Meetings = [ 0 ]                # Meetings[i] stores no. of meetings occured on step i
+    Meetings = [ 0 ]                # Meetings[i] stores no. of meetings on step i
     for Step in range(Time):
         Meetings.append( 0 )
         
-        mybots = Take_A_Step(mybots)
+        A_bot = Take_A_Step(A_bot)
+        B_bot = Take_A_Step(B_bot)
 
         Restore = list()            # A bot pair (a,b) that has recorded meet will not meet again
         for a, b in Lost:
-            if Distance(mybots[a], mybots[b]) < 1:
+            if Distance(A_bot[a], B_bot[b]) < 1:
                 Meetings[Step] += 1
                 Total_Meets += 1
             else:
@@ -71,4 +77,4 @@ def Expected_Time(Radius):
         
     return sum([Step * Meetings[Step] for Step in range(Time)]) / Total_Meets
 
-print(Expected_Time(8))
+print('Expected time to meet:', Expected_Time(10))
