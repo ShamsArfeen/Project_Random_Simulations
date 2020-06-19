@@ -19,8 +19,8 @@ def Pick_from_Circ(Radius):
     return (math.cos(dt) * dr, math.sin(dt) * dr)
 
 def Expected_Time(Radius):
-    Bots = 200
-    Time = 20000
+    Bots = 100
+    Time = 40000
 
     mybots = list()                     # bots list
     for i in range(Bots):
