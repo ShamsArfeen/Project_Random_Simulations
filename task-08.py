@@ -75,4 +75,4 @@ def Expected_Time(Radius):
         
     return sum([Step * Meetings[Step] for Step in range(Time)]) / Total_Meets
 
-print(Expected_Time(8))
+print(Expected_Time(20))
