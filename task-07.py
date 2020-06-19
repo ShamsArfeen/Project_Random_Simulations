@@ -41,4 +41,4 @@ def Round_Simulation(Radius):
 
     return Curr_Pos
 
-print("Bots are standing at point:", Round_Simulation(100))
+print("Bots are standing on points:", Round_Simulation(100))
