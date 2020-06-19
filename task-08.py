@@ -69,6 +69,9 @@ def Expected_Time(Radius):
                 Restore.append( (a,b) )
         Lost = Restore
         
+        if len(Lost) == 0:
+            break
+        
     for _ in Lost:
         Meetings[-1] += 1
         Total_Meets += 1  
